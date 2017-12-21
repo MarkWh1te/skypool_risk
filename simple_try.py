@@ -9,8 +9,8 @@ test = pd.read_csv('pred.csv')
 X = train.drop(['ID','Label'],axis=1)
 y = train.Label
 
-psvm = SVC(kernel='linear', 
-            class_weight='balanced', # penalize
+psvm = SVC(kernel='linear',
+            #class_weight='balanced', # penalize
             verbose=100,
             probability=True)
 
