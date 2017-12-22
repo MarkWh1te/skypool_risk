@@ -6,6 +6,8 @@ from xgboost.sklearn import XGBClassifier
 from sklearn import cross_validation, metrics   #Additional scklearn functions
 from sklearn.model_selection import train_test_split
 from sklearn.grid_search import GridSearchCV   #Perforing grid search
+# from matplotlib import pyplot
+
 
 test_size = 0.33
 seed = 42
@@ -35,10 +37,14 @@ xgb_clf = XGBClassifier(
 print('start train')
 xgb_clf.fit(X_train,y_train,verbose=True)
 print(xgb_clf)
-y_pred = model.predict(X_test)
+y_pred = xgb_clf.predict(X_test)
 predictions = [round(value) for value in y_pred]
 accuracy = accuracy_score(y_test, predictions)
 print("Accuracy: %.2f%%" % (accuracy * 100.0))
 
 
-#X_finished = test.drop(['ID','Label'],axis=1)
+X_finished = test.drop(['ID'],axis=1)
+submit = pd.DataFrame(xgb_clf.predict(X_finished))
+submit['ID'] = test['ID']
+submit.columns = ['Label','ID']
+submit[['ID','Label']].to_csv('submit.csv')
